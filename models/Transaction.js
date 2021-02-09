@@ -4,11 +4,11 @@ const TransactionSchema = new mongoose.Schema({
   text: {
     type: String,
     trim: true,
-    require: [true, "Please add some text"],
+    required: [true, "Please add some text"],
   },
   amount: {
     type: Number,
-    require: [true, "Please add a positive or a negative number"],
+    required: [true, "Please add a positive or a negative number"],
   },
   createdAt: {
     type: Date,
@@ -16,4 +16,4 @@ const TransactionSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.Model("Transaction", TransactionSchema);
+module.exports = mongoose.model("Transaction", TransactionSchema);

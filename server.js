@@ -8,9 +8,11 @@ dotenv.config({ path: "./config/config.env" });
 
 connectDB();
 
+const transactions = require("./routes/transactions");
+
 const app = express();
 
-const transactions = require("./routes/transactions");
+app.use(express.json());
 
 // app.get("/", (req, res) => res.send("Hello"));
 app.use("/api/v1/transactions", transactions);
