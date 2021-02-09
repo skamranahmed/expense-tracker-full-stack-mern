@@ -11,7 +11,7 @@ const AddTransaction = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const newTransaction = {
-      id: uuid_v4(),
+      // id: uuid_v4(),
       text: text,
       amount: amount,
     };
