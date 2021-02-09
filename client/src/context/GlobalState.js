@@ -1,13 +1,12 @@
 import React, { createContext, useReducer } from "react";
 import AppReducer from "./AppReducer";
+import axios from "axios";
 
 // Initial State
 const initialState = {
-  transactions: [
-    { id: 1, text: "Movie Ticket", amount: "-180" },
-    { id: 2, text: "Snacks", amount: "-100" },
-    { id: 3, text: "Freelance Gig", amount: "+2000" },
-  ],
+  transactions: [],
+  error: null,
+  loading: true,
 };
 
 // Create context
@@ -18,6 +17,21 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   // Actions
+  async function getTransactions() {
+    try {
+      const res = await axios.get("/api/v1/transactions");
+      dispatch({
+        type: "GET_TRANSACTIONS",
+        payload: res.data.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: "TRANSACTION_ERROR",
+        payload: err.response.data.error,
+      });
+    }
+  }
+
   function deleteTransaction(id) {
     dispatch({
       type: "DELETE_TRANSACTION",
@@ -36,6 +50,9 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         transactions: state.transactions,
+        error: state.error,
+        loading: state.loading,
+        getTransactions,
         deleteTransaction,
         addTransaction,
       }}
